@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 import br.ceub.desenvolvimento.aula06.controller.AlunoController;
 
 public class MenuAlunos {
+
     private AlunoController controller;
 
     public MenuAlunos(AlunoController controller) {
@@ -13,12 +14,15 @@ public class MenuAlunos {
 
     public void iniciar() {
         int opcao = -1;
+
         while (opcao != 0) {
             String menu = "1 - Cadastrar aluno\n"
                     + "2 - Listar alunos\n"
                     + "3 - Buscar aluno por nome\n"
+                    + "4 - Ver quantidade de alunos\n"
                     + "0 - Sair";
-            opcao = lerInteiro(menu, 0, 3);
+
+            opcao = lerInteiro(menu, 0, 4);
 
             if (opcao == 1) {
                 cadastrarAluno();
@@ -27,8 +31,11 @@ public class MenuAlunos {
             } else if (opcao == 3) {
                 String nome = lerTexto("Nome para busca:");
                 mostrar(controller.buscarPorNome(nome));
+            } else if (opcao == 4) {
+                mostrar("Quantidade de alunos: " + controller.quantidade());
             }
         }
+
         mostrar("Programa encerrado. Total de alunos: " + controller.quantidade());
     }
 
@@ -36,15 +43,18 @@ public class MenuAlunos {
         String nome = lerTexto("Nome do aluno:");
         String curso = lerTexto("Curso:");
         int semestre = lerInteiro("Semestre:", 1, 10);
+
         String mensagem = controller.cadastrar(nome, semestre, curso);
         mostrar(mensagem);
     }
 
     private String lerTexto(String mensagem) {
         String texto = JOptionPane.showInputDialog(mensagem);
+
         if (texto == null) {
             return "";
         }
+
         return texto;
     }
 
@@ -52,14 +62,19 @@ public class MenuAlunos {
         while (true) {
             try {
                 String entrada = JOptionPane.showInputDialog(mensagem);
+
                 if (entrada == null) {
                     return minimo;
                 }
+
                 int numero = Integer.parseInt(entrada);
+
                 if (numero >= minimo && numero <= maximo) {
                     return numero;
                 }
+
                 mostrar("Digite um numero entre " + minimo + " e " + maximo + ".");
+
             } catch (NumberFormatException erro) {
                 mostrar("Digite apenas numeros.");
             }
